@@ -158,12 +158,12 @@
                         </Label>
                      </top>
                      <center>
-                        <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                        <TableView fx:id="tableLibros" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                           <columns>
-                            <TableColumn prefWidth="59.0" text="Titulo" />
-                            <TableColumn prefWidth="61.0" text="Editorial" />
-                              <TableColumn prefWidth="109.0" text="Autor" />
-                              <TableColumn prefWidth="71.0" text="Paginas" />
+                            <TableColumn fx:id="columTitulo" prefWidth="71.0" text="Titulo" />
+                            <TableColumn fx:id="columEditorial" prefWidth="77.0" text="Editorial" />
+                              <TableColumn fx:id="columAutor" prefWidth="83.0" text="Autor" />
+                              <TableColumn fx:id="columPaginas" prefWidth="69.0" text="Paginas" />
                           </columns>
                         </TableView>
                      </center>
