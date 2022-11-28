@@ -45,6 +45,8 @@ public class IndexController {
 	
 	@FXML
 	private Button btnAnadir;
+	@FXML
+	private Button btnBorrar;
 	
 	private ObservableList<Libro> listaLibros=FXCollections.observableArrayList(new Libro("La Biblia","Planeta","Jesus",500));
 	public ObservableList<String> listaEditoriales=FXCollections.observableArrayList("Planeta","Altaya","Kadokawa","Penguin Libros");
@@ -66,6 +68,16 @@ public class IndexController {
 	
 	@FXML
     public void anadirLibro(ActionEvent event) {
+		
+		if(txtTitulo.getText().isEmpty()||chbEditorial.getSelectionModel().isEmpty()||txtAutor.getText().isEmpty()||txtPaginas.getText().isEmpty()) {
+			
+			Alert alerta = new Alert(AlertType.WARNING);
+			alerta.setTitle("Informacion incompleta");
+			alerta.setHeaderText("Falta informacion del libro");
+			alerta.setContentText("Por favor, complete los campos del formulario");
+			alerta.showAndWait();
+			
+		}
 		
 		if (esNumero(txtPaginas.getText())) {
 			Libro l = new  Libro(
@@ -93,6 +105,16 @@ public class IndexController {
 	    }
 			
 			
+	}
+	
+	@FXML
+	public void borrarLibro(ActionEvent event) {
+		
+		
+		int indiceSeleccionado=tableLibros.getSelectionModel().getSelectedIndex();
+		tableLibros.getItems().remove(indiceSeleccionado);
+		
+		
 	}
 		
 	public boolean esNumero(String s)	{
