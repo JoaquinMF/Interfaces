@@ -2,7 +2,11 @@ package application;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -39,6 +43,9 @@ public class IndexController {
 	@FXML
 	private TableColumn <Libro, Integer> columPaginas;
 	
+	@FXML
+	private Button btnAnadir;
+	
 	private ObservableList<Libro> listaLibros=FXCollections.observableArrayList(new Libro("La Biblia","Planeta","Jesus",500));
 	public ObservableList<String> listaEditoriales=FXCollections.observableArrayList("Planeta","Altaya","Kadokawa","Penguin Libros");
 	
@@ -57,8 +64,46 @@ public class IndexController {
 		
 	}
 	
-	
-	
-	
+	@FXML
+    public void anadirLibro(ActionEvent event) {
+		
+		if (esNumero(txtPaginas.getText())) {
+			Libro l = new  Libro(
+	                txtTitulo.getText(),
+	                chbEditorial.getValue().toString(),
+	                txtAutor.getText(),
+	                Integer.parseInt(txtPaginas.getText())
+	        );
+
+	        listaLibros.add(l);
+	        
+	        txtTitulo.clear();
+	        chbEditorial.getSelectionModel().clearSelection();
+	        txtAutor.clear();
+	        txtPaginas.clear();
+	        
+	    }else {
+	    	
+	    	Alert alerta = new Alert(AlertType.ERROR);
+	    	alerta.setTitle("Error al insertar");
+	    	alerta.setHeaderText("No se ha introducido un numero en las paginas ");
+	    	alerta.setContentText("Por favor, introduzca un numero en las paginas");
+	    	alerta.showAndWait();
+	    	
+	    }
+			
+			
+	}
+		
+	public boolean esNumero(String s)	{
+		try {
+			Integer.parseInt(s);
+			return true;
+		}catch (NumberFormatException e) {
+			return false;
+		}
+		
+		
+	}
 	
 }
