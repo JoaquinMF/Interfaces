@@ -48,8 +48,8 @@ public class Libro {
 		
 	}
 	
-	public String getPaginas() {
-		return editorial.get();
+	public int getPaginas() {
+		return paginas.get();
 	}
 	
 	public void setPaginas(Integer paginas) {

@@ -1,5 +1,10 @@
 package application;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -62,9 +67,38 @@ public class IndexController {
 		columAutor.setCellValueFactory(new PropertyValueFactory<>("autor"));
 		columPaginas.setCellValueFactory(new PropertyValueFactory<>("paginas"));
 		
-		tableLibros.setItems(listaLibros);
+		ObservableList listaLibrosDB=getLibrosDB();
+		
+		tableLibros.setItems(listaLibrosDB);
 		
 	}
+	
+	private ObservableList<Libro> getLibrosDB () {
+		ObservableList<Libro> listaLibrosDB = FXCollections.observableArrayList();
+		DatabaseConnection dbConnection = new DatabaseConnection();
+		Connection connection = dbConnection.getConnection();
+		String query = "select * from libros";
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				Libro libro = new Libro(
+						rs.getString("titulo"),
+						rs.getString("editorial"),
+						rs.getString("autor"),
+						rs.getInt("paginas")
+					);
+				listaLibrosDB.add(libro);
+			}
+			connection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return listaLibrosDB;
+	}
+	
 	
 	@FXML
     public void anadirLibro(ActionEvent event) {
@@ -114,6 +148,22 @@ public class IndexController {
 		int indiceSeleccionado=tableLibros.getSelectionModel().getSelectedIndex();
 		tableLibros.getItems().remove(indiceSeleccionado);
 		
+		System.out.println("Indice a borrar: "+indiceSeleccionado);
+		
+		
+		if(indiceSeleccionado<=1) {
+			
+			Alert alerta=new Alert(AlertType.ERROR);
+			alerta.setTitle("Error al borrar ");
+			alerta.setHeaderText("No se ha seleccionado ningun libro a borrar ");
+			alerta.setContentText("Por favor, seleccione un libro para borrar ");
+			alerta.showAndWait();
+			
+		}else {
+			tableLibros.getItems().remove(indiceSeleccionado);
+			tableLibros.getSelectionModel().clearSelection();
+			
+		}
 		
 	}
 		
